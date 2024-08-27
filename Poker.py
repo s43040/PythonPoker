@@ -10,19 +10,12 @@ shuffledDeck7 = []
 shuffledDeck8 = []
 shuffledDeck9 = []
 shuffledDeck10 = []
-shuffledDeck11 = []
-shuffledDeck12 = []
-shuffledDeck13 = []
-shuffledDeck14 = []
-shuffledDeck15 = []
-shuffledDeck16 = []
-shuffledDeck17 = []
-shuffledDeck18 = []
-shuffledDeck19 = []
-shuffledDeck20 = []
+LowestPossibleScore = False
 lencards = len(deckCardsList)
-player1win = False
-player2win = False
+p1DeckPossibilities = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+p2DeckPossibilities = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+p1DeckScores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+p2DeckScores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 p1allin = False
 p2allin = False
 p1fold = False
@@ -90,89 +83,21 @@ def ShuffleDeck1():
         shuffledDeck10.append(card)
         shuffledDeck9.remove(card)
 
-    for index in range(lencards):
-        cardnum = random.randint(0, (lencards) -index -1)
-        card = shuffledDeck10[cardnum]    
-        shuffledDeck11.append(card)
-        shuffledDeck10.remove(card)
-
-    for index in range(lencards):
-        cardnum = random.randint(0, (lencards) -index -1)
-        card = shuffledDeck11[cardnum]    
-        shuffledDeck12.append(card)
-        shuffledDeck11.remove(card)
-
-    for index in range(lencards):
-        cardnum = random.randint(0, (lencards) -index -1)
-        card = shuffledDeck12[cardnum]    
-        shuffledDeck13.append(card)
-        shuffledDeck12.remove(card)
-
-    for index in range(lencards):
-        cardnum = random.randint(0, (lencards) -index -1)
-        card = shuffledDeck13[cardnum]    
-        shuffledDeck14.append(card)
-        shuffledDeck13.remove(card)
-
-    for index in range(lencards):
-        cardnum = random.randint(0, (lencards) -index -1)
-        card = shuffledDeck14[cardnum]    
-        shuffledDeck15.append(card)
-        shuffledDeck14.remove(card)
-
-    for index in range(lencards):
-        cardnum = random.randint(0, (lencards) -index -1)
-        card = shuffledDeck15[cardnum]    
-        shuffledDeck16.append(card)
-        shuffledDeck15.remove(card)
-
-    for index in range(lencards):
-        cardnum = random.randint(0, (lencards) -index -1)
-        card = shuffledDeck16[cardnum]    
-        shuffledDeck17.append(card)
-        shuffledDeck16.remove(card)
-
-    for index in range(lencards):
-        cardnum = random.randint(0, (lencards) -index -1)
-        card = shuffledDeck17[cardnum]    
-        shuffledDeck18.append(card)
-        shuffledDeck17.remove(card)
-
-    for index in range(lencards):
-        cardnum = random.randint(0, (lencards) -index -1)
-        card = shuffledDeck18[cardnum]    
-        shuffledDeck19.append(card)
-        shuffledDeck18.remove(card)
-
-    for index in range(lencards):
-        cardnum = random.randint(0, (lencards) -index -1)
-        card = shuffledDeck19[cardnum]    
-        shuffledDeck20.append(card)
-        shuffledDeck19.remove(card)
-
 p1 = []
 p2 = []
-p1sorted = []
-p2sorted = []
-def SortDeck():
+def SortDeck(pdeck):
+    p1sorted = []
     sortlist = ["Ace", "Two", "Thr", "Fou", "Fiv", "Six", "Sev", "Eig", "Nin", "Ten", "Jac", "Que", "Kin"]
     for i in range(len(sortlist)):
         for index in range(5):
-            player1card = p1[index]
+            player1card = pdeck[index]
             if player1card[0:3] == sortlist[i]:
                 card = player1card
                 p1sorted.append(card)
+    return p1sorted
 
-    #sorting second player
-    for i in range(len(sortlist)):
-        for index in range(5):
-            player2card = p2[index]
-            if player2card[0:3] == sortlist[i]:
-                card = player2card
-                p2sorted.append(card)
-
-def RoyalFlush():
-    global player1win, player2win
+def RoyalFlush(p1sorted, score):
+    global LowestPossibleScore
     p1c1 = p1sorted[0]
     p1c2 = p1sorted[1]
     p1c3 = p1sorted[2]
@@ -180,473 +105,253 @@ def RoyalFlush():
     p1c5 = p1sorted[4]
     suitlist = ["e", "t", "d", "b"]
     for index in range(len(suitlist)):
+        score+=1
         if p1c1[-4] == p1c2[-4] == p1c3[-4] == p1c4[-4] == p1c5[-4] == suitlist[index]:
             if p1c1[0:3] == "Ace" and p1c2[0:3] == "Ten" and p1c3[0:3] == "Jac" and p1c4[0:3] == "Que" and p1c5[0:3] == "Kin":
-                player1win = True
-    p2c1 = p2sorted[0]
-    p2c2 = p2sorted[1]
-    p2c3 = p2sorted[2]
-    p2c4 = p2sorted[3]
-    p2c5 = p2sorted[4]
-    for index in range(len(suitlist)):
-        if p2c1[-4] == p2c2[-4] == p2c3[-4] == p2c4[-4] == p2c5[-4] == suitlist[index]:
-            if p2c1[0:3] == "Ace" and p2c2[0:3] == "Ten" and p2c3[0:3] == "Jac" and p2c4[0:3] == "Que" and p2c5[0:3] == "Kin":
-                player2win = True
+                LowestPossibleScore = True
+                return score
+    return score
 
-def StraightFlush():
-    global player1win, player2win
+def StraightFlush(p1sorted, score):
+    global LowestPossibleScore
     p1c1 = p1sorted[0]
     p1c2 = p1sorted[1]
     p1c3 = p1sorted[2]
     p1c4 = p1sorted[3]
     p1c5 = p1sorted[4]
-    p2c1 = p2sorted[0]
-    p2c2 = p2sorted[1]
-    p2c3 = p2sorted[2]
-    p2c4 = p2sorted[3]
-    p2c5 = p2sorted[4]
     numlist = ["Ace", "Two", "Thr", "Fou", "Fiv", "Six", "Sev", "Eig", "Nin", "Ten", "Jac", "Que", "Kin"]
     for index in range(10):
+        score +=1
         if p1c1[-4] == p1c2[-4] == p1c3[-4] == p1c4[-4] == p1c5[-4] == "e" or p1c1[-4] == p1c2[-4] == p1c3[-4] == p1c4[-4] == p1c5[-4] == "t" or p1c1[-4] == p1c2[-4] == p1c3[-4] == p1c4[-4] == p1c5[-4] == "d" or p1c1[-4] == p1c2[-4] == p1c3[-4] == p1c4[-4] == p1c5[-4] == "b":
             if p1c1[0:3] == numlist[-index] and p1c2[0:3] == numlist[-1 - index] and p1c3[0:3] == numlist[-2 - index] and p1c4[0:3] == numlist[-3 - index] and p1c5[0:3] == numlist[-4 - index]:
-                player1win = True
-        if p2c1[-4] == p2c2[-4] == p2c3[-4] == p2c4[-4] == p2c5[-4] == "e" or p2c1[-4] == p2c2[-4] == p2c3[-4] == p2c4[-4] == p2c5[-4] == "t" or p2c1[-4] == p2c2[-4] == p2c3[-4] == p2c4[-4] == p2c5[-4] == "d" or p2c1[-4] == p2c2[-4] == p2c3[-4] == p2c4[-4] == p2c5[-4] == "b":
-            if p2c1[0:3] == numlist[-index] and p2c2[0:3] == numlist[-1 - index] and p2c3[0:3] == numlist[-2 - index] and p2c4[0:3] == numlist[-3 - index] and p2c5[0:3] == numlist[-4 - index]:
-                player2win = True
-        if player1win == True or player2win == True:
-            break
-    if player1win == True and player2win == True:
-        HighHighCard()
+                LowestPossibleScore = True
+                return score
+    return score
 
-def FourOfAKind():
-    global player1win, player2win
+def FourOfAKind(p1sorted, score):
+    global LowestPossibleScore
     p1c1 = p1sorted[0]
     p1c2 = p1sorted[1]
     p1c3 = p1sorted[2]
     p1c4 = p1sorted[3]
     p1c5 = p1sorted[4]
-    p2c1 = p2sorted[0]
-    p2c2 = p2sorted[1]
-    p2c3 = p2sorted[2]
-    p2c4 = p2sorted[3]
-    p2c5 = p2sorted[4]
     p1c1 = p1c1[0:3]
     p1c2 = p1c2[0:3]
     p1c3 = p1c3[0:3]
     p1c4 = p1c4[0:3]
     p1c5 = p1c5[0:3]
-    p2c1 = p2c1[0:3]
-    p2c2 = p2c2[0:3]
-    p2c3 = p2c3[0:3]
-    p2c4 = p2c4[0:3]
-    p2c5 = p2c5[0:3]
     numlist = ["Ace", "Kin", "Que", "Jac", "Ten", "Nin", "Eig", "Sev", "Six", "Fiv", "Fou", "Thr", "Two"]
     for index in range(len(numlist)):
+        score+=1
         if p1c1 == numlist[index] and p1c2 == numlist[index] and p1c3 == numlist[index] and p1c4 == numlist[index] or p1c2 == numlist[index] and p1c3 == numlist[index] and p1c4 == numlist[index] and p1c5 == numlist[index]:
-            player1win = True
-        if p2c1 == numlist[index] and p2c2 == numlist[index] and p2c3 == numlist[index] and p2c4 == numlist[index] or p2c2 == numlist[index] and p2c3 == numlist[index] and p2c4 == numlist[index] and p2c5 == numlist[index]:
-            player2win = True
-        if player1win == True or player2win == True:
-            break
+            LowestPossibleScore = True
+            return score
+    return score
 
-    if player1win == True and player2win == True:
-        HighHighCard()
-
-def FullHouse():
-    global player1win, player2win
+def FullHouse(p1sorted, score):
+    global LowestPossibleScore
     p1c1 = p1sorted[0]
     p1c2 = p1sorted[1]
     p1c3 = p1sorted[2]
     p1c4 = p1sorted[3]
     p1c5 = p1sorted[4]
-    p2c1 = p2sorted[0]
-    p2c2 = p2sorted[1]
-    p2c3 = p2sorted[2]
-    p2c4 = p2sorted[3]
-    p2c5 = p2sorted[4]
     p1c1 = p1c1[0:3]
     p1c2 = p1c2[0:3]
     p1c3 = p1c3[0:3]
     p1c4 = p1c4[0:3]
     p1c5 = p1c5[0:3]
-    p2c1 = p2c1[0:3]
-    p2c2 = p2c2[0:3]
-    p2c3 = p2c3[0:3]
-    p2c4 = p2c4[0:3]
-    p2c5 = p2c5[0:3]
     numlist = ["Ace", "Kin", "Que", "Jac", "Ten", "Nin", "Eig", "Sev", "Six", "Fiv", "Fou", "Thr", "Two"]
     for index in range(len(numlist)):
+        score+=1
         if (p1c1 == numlist[index] and p1c2 == numlist[index] and p1c3 == numlist[index] and p1c4 == p1c5) or (p1c1 == p1c2 and p1c3 == numlist[index] and p1c4 == numlist[index] and p1c5 == numlist[index]):
-            player1win = True
-        if (p2c1 == numlist[index] and p2c2 == numlist[index] and p2c3 == numlist[index] and p2c4 == p2c5) or (p2c1 == p2c2 and p1c3 == numlist[index] and p1c4 == numlist[index] and p1c5 == numlist[index]):
-            player2win = True
-        if player1win == True or player2win == True:
-            break
+            LowestPossibleScore = True
+            return score
+    return score
 
-    if player1win == True and player2win == True:
-        HighHighCard()
-
-def Flush():
-    global player1win, player2win
+def Flush(p1sorted, score):
+    global LowestPossibleScore
     samesuitp1 = False
-    samesuitp2 = False
     p1c1 = p1sorted[0]
     p1c2 = p1sorted[1]
     p1c3 = p1sorted[2]
     p1c4 = p1sorted[3]
     p1c5 = p1sorted[4]
-    p2c1 = p2sorted[0]
-    p2c2 = p2sorted[1]
-    p2c3 = p2sorted[2]
-    p2c4 = p2sorted[3]
-    p2c5 = p2sorted[4]
     numlist = ["Ace", "Kin", "Que", "Jac", "Ten", "Nin", "Eig", "Sev", "Six", "Fiv", "Fou", "Thr", "Two"]
     if (p1c1[-4] == p1c2[-4] == p1c3[-4] == p1c4[-4] == p1c5[-4] == "e") or (p1c1[-4] == p1c2[-4] == p1c3[-4] == p1c4[-4] == p1c5[-4] == "t") or (p1c1[-4] == p1c2[-4] == p1c3[-4] == p1c4[-4] == p1c5[-4] == "d") or (p1c1[-4] == p1c2[-4] == p1c3[-4] == p1c4[-4] == p1c5[-4] == "b"):
         samesuitp1 = True
-    if (p2c1[-4] == p2c2[-4] == p2c3[-4] == p2c4[-4] == p2c5[-4] == "e") or (p2c1[-4] == p2c2[-4] == p2c3[-4] == p2c4[-4] == p2c5[-4] == "t") or (p2c1[-4] == p2c2[-4] == p2c3[-4] == p2c4[-4] == p2c5[-4] == "d") or (p2c1[-4] == p2c2[-4] == p2c3[-4] == p2c4[-4] == p2c5[-4] == "b"):
-        samesuitp2 = True
     for index in range(len(numlist)):
+        score+=1
         if samesuitp1 == True:
             if p1c1[0:3] == numlist[index] or p1c2[0:3] == numlist[index] or p1c3[0:3] == numlist[index] or p1c4[0:3] == numlist[index] or p1c5[0:3] == numlist[index]:
-                player1win = True
-        if samesuitp2 == True:        
-            if p2c1[0:3] == numlist[index] or p2c2[0:3] == numlist[index] or p2c3[0:3] == numlist[index] or p2c4[0:3] == numlist[index] or p2c5[0:3] == numlist[index]:
-                player2win = True
-        if player1win == True or player2win == True:
-            break
+                LowestPossibleScore = True
+                return score
+    return score
 
-    if player1win == True and player2win == True:
-        HighHighCard()
-
-def Straight():
-    global player1win, player2win
+def Straight(p1sorted, score):
+    global LowestPossibleScore
     p1c1 = p1sorted[0]
     p1c2 = p1sorted[1]
     p1c3 = p1sorted[2]
     p1c4 = p1sorted[3]
     p1c5 = p1sorted[4]
-    p2c1 = p2sorted[0]
-    p2c2 = p2sorted[1]
-    p2c3 = p2sorted[2]
-    p2c4 = p2sorted[3]
-    p2c5 = p2sorted[4]
     p1c1 = p1c1[0:3]
     p1c2 = p1c2[0:3]
     p1c3 = p1c3[0:3]
     p1c4 = p1c4[0:3]
     p1c5 = p1c5[0:3]
-    p2c1 = p2c1[0:3]
-    p2c2 = p2c2[0:3]
-    p2c3 = p2c3[0:3]
-    p2c4 = p2c4[0:3]
-    p2c5 = p2c5[0:3]
     numlist = ["Ace", "Two", "Thr", "Fou", "Fiv", "Six", "Sev", "Eig", "Nin", "Ten", "Jac", "Que", "Kin"]
     for index in range(10):
+        score+=1
         if p1c1 == numlist[-index] and p1c2 == numlist[-1 -index] and p1c3 == numlist[-2 -index] and p1c4 == numlist[-3 -index] and p1c5 == numlist[-4 -index]:
-            player1win = True
-        if p2c1 == numlist[-index] and p2c2 == numlist[-1 -index] and p2c3 == numlist[-2 -index] and p2c4 == numlist[-3 -index] and p2c5 == numlist[-4 -index]:
-            player2win = True
-        if player1win == True or player2win == True:
-            break
-    if player1win == True and player2win == True:
-        HighHighCard()
+            LowestPossibleScore = True
+            return score
+    return score
 
-def ThreeOfAKind():
-    global player1win, player2win
+def ThreeOfAKind(p1sorted, score):
+    global LowestPossibleScore
     p1c1 = p1sorted[0]
     p1c2 = p1sorted[1]
     p1c3 = p1sorted[2]
     p1c4 = p1sorted[3]
     p1c5 = p1sorted[4]
-    p2c1 = p2sorted[0]
-    p2c2 = p2sorted[1]
-    p2c3 = p2sorted[2]
-    p2c4 = p2sorted[3]
-    p2c5 = p2sorted[4]
     p1c1 = p1c1[0:3]
     p1c2 = p1c2[0:3]
     p1c3 = p1c3[0:3]
     p1c4 = p1c4[0:3]
     p1c5 = p1c5[0:3]
-    p2c1 = p2c1[0:3]
-    p2c2 = p2c2[0:3]
-    p2c3 = p2c3[0:3]
-    p2c4 = p2c4[0:3]
-    p2c5 = p2c5[0:3]
     numlist = ["Ace", "Kin", "Que", "Jac", "Ten", "Nin", "Eig", "Sev", "Six", "Fiv", "Fou", "Thr", "Two"]
     for index in range(len(numlist)):
+        score+=1
         if (p1c1 == numlist[index] and p1c2 == numlist[index] and p1c3 == numlist[index]) or (p1c2 == numlist[index] and p1c3 == numlist[index] and p1c4 == numlist[index]) or (p1c3 == numlist[index] and p1c4 == numlist[index] and p1c5 == numlist[index]):
-            player1win = True
-        if (p2c1 == numlist[index] and p2c2 == numlist[index] and p2c3 == numlist[index]) or (p2c2 == numlist[index] and p2c3 == numlist[index] and p2c4 == numlist[index]) or (p2c3 == numlist[index] and p2c4 == numlist[index] and p2c5 == numlist[index]):
-            player2win = True
-        if player1win == True or player2win == True:
-            break
-    if player1win == True and player2win == True:
-        HighHighCard()
+            LowestPossibleScore = True
+            return score
+    return score
 
-def TwoPair():
-    global player1win, player2win
+def TwoPair(p1sorted, score):
+    global LowestPossibleScore
     p1c1 = p1sorted[0]
     p1c2 = p1sorted[1]
     p1c3 = p1sorted[2]
     p1c4 = p1sorted[3]
     p1c5 = p1sorted[4]
-    p2c1 = p2sorted[0]
-    p2c2 = p2sorted[1]
-    p2c3 = p2sorted[2]
-    p2c4 = p2sorted[3]
-    p2c5 = p2sorted[4]
     p1c1 = p1c1[0:3]
     p1c2 = p1c2[0:3]
     p1c3 = p1c3[0:3]
     p1c4 = p1c4[0:3]
     p1c5 = p1c5[0:3]
-    p2c1 = p2c1[0:3]
-    p2c2 = p2c2[0:3]
-    p2c3 = p2c3[0:3]
-    p2c4 = p2c4[0:3]
-    p2c5 = p2c5[0:3]
     numlist = ["Ace", "Kin", "Que", "Jac", "Ten", "Nin", "Eig", "Sev", "Six", "Fiv", "Fou", "Thr", "Two"]
     for index in range(len(numlist)):
+        score+=1
         if (p1c1 == numlist[index] and p1c2 == numlist[index] and (p1c3 == p1c4 or p1c4 == p1c5)) or (p1c2 == numlist[index] and p1c3 == numlist[index] and p1c4 == p1c5) or (p1c3 == numlist[index] and p1c4 == numlist[index] and p1c1 == p1c2) or (p1c4 == numlist[index] and p1c5 == numlist[index] and (p1c1 == p1c2 or p1c2 == p1c3)):
-            player1win = True
-        if (p2c1 == numlist[index] and p2c2 == numlist[index] and (p2c3 == p2c4 or p2c4 == p2c5)) or (p2c2 == numlist[index] and p2c3 == numlist[index] and p2c4 == p2c5) or (p2c3 == numlist[index] and p2c4 == numlist[index] and p2c1 == p2c2) or (p2c4 == numlist[index] and p2c5 == numlist[index] and (p2c1 == p2c2 or p2c2 == p2c3)):
-            player2win = True
-        if player1win == True or player2win == True:
-            break
-    if player1win == True and player2win == True:
-        PairHigh()
+            LowestPossibleScore = True
+            return score
+    return score
 
-def PairHigh():
-    global player1win, player2win
+def PairHigh(p1sorted, score):
+    global LowestPossibleScore
     p1c1 = p1sorted[0]
     p1c2 = p1sorted[1]
     p1c3 = p1sorted[2]
     p1c4 = p1sorted[3]
     p1c5 = p1sorted[4]
-    p2c1 = p2sorted[0]
-    p2c2 = p2sorted[1]
-    p2c3 = p2sorted[2]
-    p2c4 = p2sorted[3]
-    p2c5 = p2sorted[4]
     p1c1 = p1c1[0:3]
     p1c2 = p1c2[0:3]
     p1c3 = p1c3[0:3]
     p1c4 = p1c4[0:3]
     p1c5 = p1c5[0:3]
-    p2c1 = p2c1[0:3]
-    p2c2 = p2c2[0:3]
-    p2c3 = p2c3[0:3]
-    p2c4 = p2c4[0:3]
-    p2c5 = p2c5[0:3]
-    First = False
     numlist = ["Ace", "Kin", "Que", "Jac", "Ten", "Nin", "Eig", "Sev", "Six", "Fiv", "Fou", "Thr", "Two"]
     for index in range(len(numlist)):
-        player1win = False
-        player2win = False
+        score+=1
         if p1c1 == p1c2 == numlist[index] or p1c2 == p1c3 == numlist[index] or p1c3 == p1c4 == numlist[index] or p1c4 == p1c5 == numlist[index]:
-            player1win = True
-        if p2c1 == p2c2 == numlist[index] or p2c2 == p2c3 == numlist[index] or p2c3 == p2c4 == numlist[index] or p2c4 == p2c5 == numlist[index]:
-            player2win = True
-        if player1win == True and player2win == False:
-            break
-        if player1win == False and player2win == True:
-            break
-        if player1win == True and player2win == True and First == True:
-            HighHighCard()
-        if player1win == True and player2win == True:
-            First = True 
+            LowestPossibleScore = True
+            return score
+    return score
 
-def HighHighCard():
-    global player1win, player2win
-    player1win = False
-    player2win = False
+def HighHighCard(p1sorted, score):
+    global LowestPossibleScore
     p1c1 = p1sorted[0]
     p1c2 = p1sorted[1]
     p1c3 = p1sorted[2]
     p1c4 = p1sorted[3]
     p1c5 = p1sorted[4]
-    p2c1 = p2sorted[0]
-    p2c2 = p2sorted[1]
-    p2c3 = p2sorted[2]
-    p2c4 = p2sorted[3]
-    p2c5 = p2sorted[4]
     p1c1 = p1c1[0:3]
     p1c2 = p1c2[0:3]
     p1c3 = p1c3[0:3]
     p1c4 = p1c4[0:3]
     p1c5 = p1c5[0:3]
-    p2c1 = p2c1[0:3]
-    p2c2 = p2c2[0:3]
-    p2c3 = p2c3[0:3]
-    p2c4 = p2c4[0:3]
-    p2c5 = p2c5[0:3]
-    First = False
-    Second = False
-    Third = False
-    Fourth = False
     numlist = ["Ace", "Kin", "Que", "Jac", "Ten", "Nin", "Eig", "Sev", "Six", "Fiv", "Fou", "Thr", "Two"]
     for index in range(len(numlist)):
-        player1win = False
-        player2win = False
-        if p1c1 == numlist[index] or p1c2 == numlist[index] or p1c3 == numlist[index] or p1c4 == numlist[index] or p1c5 == numlist[index]:
-            player1win = True
-        if p2c1 == numlist[index] or p2c2 == numlist[index] or p2c3 == numlist[index] or p2c4 == numlist[index] or p2c5 == numlist[index]:
-            player2win = True
-        if player1win == True and player2win == False:
-            break
-        if player1win == False and player2win == True:
-            break
-        if player1win == True or player2win == True and First == False:
-            First = True
-        elif player1win == True or player2win == True and First == True and Second == False:
-            Second = True
-        elif player1win == True or player2win == True and First == True and Second == True and Third == False:
-            Third = True
-        elif player1win == True or player2win == True and First == True and Second == True and Third == True and Fourth == False:
-            Fourth = True
-        elif player1win == True or player2win == True and First == True and Second == True and Third == True and Fourth == True:
-            break
+        score+=1
+        if p1c1 == numlist[index]:
+            LowestPossibleScore = True
+            return score
+    return score
 
 def DecideWinner():
     #This picks the winner(s) and does stuff with the pot
     global p1money, p2money, pot
-    if player1win == True and player2win == True:
+    p1LowestScore = 999999999999999999999
+    p2LowestScore = 999999999999999999999
+    for index in range(len(p1DeckPossibilities)):
+        if p1DeckScores[index] < p1LowestScore:
+            p1LowestScore = p1DeckScores[index]
+        if p2DeckScores[index] < p2LowestScore:
+            p2LowestScore = p2DeckScores[index]
+    if  p1LowestScore == p2LowestScore:
         print("You split the pot")
         pot = pot/2
         p1money = p1money + pot
         p2money = p2money + pot
         pot = 0
-    elif player1win == True:
+    elif  p1LowestScore < p2LowestScore:
         print("Player 1 gets the pot")
         p1money = p1money + pot
         pot = 0
-    elif player2win == True:
+    else:
         print("Player 2 gets the pot")
         p2money = p2money + pot
         pot = 0
 
-def Picking_Winner():
+def Picking_Winner(psorted, score):
+    global LowestPossibleScore
     #This funciton goes through the hands you can have in poker until someone is a winner
-    RoyalFlush()
-    if player1win == False and player2win == False:
-        StraightFlush()
-    if player1win == False and player2win == False:
-        FourOfAKind()
-    if player1win == False and player2win == False:
-        FullHouse()
-    if player1win == False and player2win == False:
-        Flush()
-    if player1win == False and player2win == False:
-        Straight()
-    if player1win == False and player2win == False:
-        ThreeOfAKind()
-    if player1win == False and player2win == False:
-        TwoPair()
-    if player1win == False and player2win == False:
-        PairHigh()
-    if player1win == False and player2win == False:
-        HighHighCard()
+    LowestPossibleScore = False
+    score = RoyalFlush(psorted, score)
+    if  LowestPossibleScore == False:
+        score = StraightFlush(psorted, score)
+    if  LowestPossibleScore == False:
+        score = FourOfAKind(psorted, score)
+    if  LowestPossibleScore == False:
+        score = FullHouse(psorted, score)
+    if  LowestPossibleScore == False:
+        score = Flush(psorted, score)
+    if  LowestPossibleScore == False:
+        score = Straight(psorted, score)
+    if  LowestPossibleScore == False:
+        score = ThreeOfAKind(psorted, score)
+    if  LowestPossibleScore == False:
+        score = TwoPair(psorted, score)
+    if  LowestPossibleScore == False:
+        score = PairHigh(psorted, score)
+    if  LowestPossibleScore == False:
+        score = HighHighCard(psorted, score)
+    return score
 
 def Start_Game():
     #This adds cards to the player's hands and the pot
     cards = 0
     while cards < 2:
-        card = shuffledDeck20[0]
+        card = shuffledDeck10[0]
         p1.append(card)
-        shuffledDeck20.remove(card)
-        card = shuffledDeck20[0]
+        shuffledDeck10.remove(card)
+        card = shuffledDeck10[0]
         p2.append(card)
-        shuffledDeck20.remove(card)
+        shuffledDeck10.remove(card)
         cards = cards + 1
     for index in range(3):
-        card = shuffledDeck20[0]
+        card = shuffledDeck10[0]
         TableCards.append(card)
-        shuffledDeck20.remove(card)
-
-def CardAppend(bet1, bet2, bet3):
-    #Validates the cards that you picked
-    global TableCards, p1, p2
-    bet11 = False
-    bet12 = False
-    bet13 = False
-    bet21 = False
-    bet22 = False
-    bet23 = False
-    while True:
-        while True:
-            bet11 = False
-            bet12 = False
-            bet13 = False
-            bet21 = False
-            bet22 = False
-            bet23 = False
-            if bet1.strip('-').isnumeric():
-                if bet2.strip('-').isnumeric():
-                    if bet3.strip('-').isnumeric():
-                        bet1 = int(bet1)
-                        bet2 = int(bet2)
-                        bet3 = int(bet3)
-                        if 1 <= bet1 <= 5:
-                            bet11 = True
-                        else:
-                            bet1 = input("Please select a number between 1 and 5 for your first card")
-                            bet2 = str(bet2)
-                            bet3 = str(bet3)
-                        if 1 <= bet2 <= 5:
-                            bet12 = True
-                        else:
-                            bet2 = input("Please select a number between 1 and 5 for your second card")
-                            bet1 = str(bet1)
-                            bet3 = str(bet3)
-                        if 1 <= bet3 <= 5:
-                            bet13 = True
-                        else:
-                            bet3 = input("Please select a number between 1 and 5 for your final card")
-                            bet2 = str(bet2)
-                            bet1 = str(bet1)
-                    else:
-                        bet3 = input("Please type a numberical number for your final card")
-                else:
-                    bet2 = input("Please type a numerical number for your second card")
-            else:
-                bet1 = input("Please type a numerical number for your first card")
-            if bet11 == True and bet12 == True and bet13 == True:
-                break
-
-
-        if bet11 == True and bet12 == True and bet13 == True and bet21 == False:
-            if bet1 != bet2 and bet1 != bet3:
-                bet21 = True
-            else:
-                print("These are your table cards", TableCards)
-                bet1 = input("Please only pick a card once")
-        if bet11 == True and bet12 == True and bet13 == True and bet22 == False:
-            if bet2 != bet1 and bet2 != bet3:
-                bet22 = True
-            else:
-                print("These are your table cards", TableCards)
-                bet2 = input("Please only pick a card once")
-        if bet11 == True and bet12 == True and bet13 == True and bet23 == False:
-            if bet3 != bet2 and bet3 != bet1:
-                bet23 = True
-            else:
-                print("These are your table cards", TableCards)
-                bet3 = input("Please only pick a card once")
-        if bet21 == True and bet22 == True and bet23 == True:
-            print("You picked the cards", TableCards[bet1 -1], TableCards[bet2 -1], TableCards[bet3 -1])
-            likegoodCards = input("Do you like the cards you picked? ")
-            if likegoodCards == "yes":
-                return[bet1, bet2, bet3]
-            else:
-                print("Please pick 3 table cards you like")
-                bet1 = input("Please pick your first card")
-                bet2 = input("Please pick your second card")
-                bet3 = input("Please pick your third card")
-        else:
-            bet1 = str(bet1)
-            bet2 = str(bet2)
-            bet3 = str(bet3)
+        shuffledDeck10.remove(card)
 
 def ValidateBet(p1bet, p2bet):
     #validates a bet that can be used in poker. Numbers must be positive, and less than or equal to your chip amount
@@ -811,7 +516,7 @@ p2money = 1000
 pot = 0
 def TheBetting():
     #Allows you to bet 3 times and then pick 3 cards from the table
-    global p1money, p2money, pot, p1allin, p2allin, p1fold, p2fold, p1, p2, TableCards, shuffledDeck20
+    global p1money, p2money, pot, p1allin, p2allin, p1fold, p2fold, p1, p2, TableCards, shuffledDeck10
     print("Your cards are:", "".join(p1))
     print("The Table Cards are:", "".join(TableCards))
     print("player 1 has", p1money, "chips")
@@ -846,8 +551,8 @@ def TheBetting():
         p1fold = True
 
     if p1fold == False and p2fold == False and p1allin == False and p2allin == False:
-        TableCards.append(shuffledDeck20[0])
-        shuffledDeck20.remove(shuffledDeck20[0])
+        TableCards.append(shuffledDeck10[0])
+        shuffledDeck10.remove(shuffledDeck10[0])
         print("The pot is", pot)
         print("These are the new TableCards:", "".join(TableCards))
         print("player 1 has", p1money, "chips")
@@ -881,8 +586,8 @@ def TheBetting():
 
     if p1fold == False and p2fold == False and p1allin == False and p2allin == False:
         print("The pot is", pot)
-        TableCards.append(shuffledDeck20[0])
-        shuffledDeck20.remove(shuffledDeck20[0])
+        TableCards.append(shuffledDeck10[0])
+        shuffledDeck10.remove(shuffledDeck10[0])
         print("The pot is", pot)
         print("These are the final Table Cards:", "".join(TableCards))
         print("player 1 has", p1money, "chips")
@@ -914,61 +619,73 @@ def TheBetting():
             p2money = p2money + pot
             pot = 0
 
-    if p1fold == False and p2fold == False and p1allin == False and p2allin == False:
-        print("When picking your table cards to make your final hand, there can be no repeats in each player's hand, but both players can pick the same card to add to their hand")
-        print("These are your table cards,", "".join(TableCards))
-        p1t = input("player 1, pick one table card(number)")
-        p1t2 = input("player 1, pick another table card(number)")
-        p1t3 = input("player 1, pick your final card(number)")
-        p1t, p1t2, p1t3, = CardAppend(p1t, p1t2, p1t3)
-        p1.append(TableCards[p1t - 1])
-        p1.append(TableCards[p1t2 - 1])
-        p1.append(TableCards[p1t3 - 1])
-        print("When picking your table cards to make your final hand, there can be no repeats in each player's hand, but both players can pick the same card to add to their hand")
-        print("These are your table cards,", "".join(TableCards))
-        p2t = input("player 2, pick one table card(number)")
-        p2t2 = input("player 2, pick another table card(number)")
-        p2t3 = input("player 2, pick your final card(number)")
-        p2t, p2t2, p2t3, = CardAppend(p2t, p2t2, p2t3)
-        p2.append(TableCards[p2t - 1])
-        p2.append(TableCards[p2t2 - 1])
-        p2.append(TableCards[p2t3 - 1])
-
-    if p1allin == True or p2allin == True:
-        tablelength = len(TableCards)
-        while tablelength < 5:
-            card = shuffledDeck20[0]
-            TableCards.append(card)
-            shuffledDeck20.remove(card)
-            tablelength = len(TableCards)
-        print("When picking your table cards to make your final hand, there can be no repeats in each player's hand, but both players can pick the same card to add to their hand")
-        print("These are your table cards,", "".join(TableCards))
-        p1t = input("player 1, pick one table card(number)")
-        p1t2 = input("player 1, pick another table card(number)")
-        p1t3 = input("player 1, pick your final card(number)")
-        p1t, p1t2, p1t3, = CardAppend(p1t, p1t2, p1t3)
-        p1.append(TableCards[p1t - 1])
-        p1.append(TableCards[p1t2 - 1])
-        p1.append(TableCards[p1t3 - 1])
-        print("\n" * 20)
-        print("When picking your table cards to make your final hand, there can be no repeats in each player's hand, but both players can pick the same card to add to their hand")
-        print("These are your table cards,", "".join(TableCards))
-        p2t = input("player 2, pick one table card(number)")
-        p2t2 = input("player 2, pick another table card(number)")
-        p2t3 = input("player 2, pick your final card(number)")
-        p2t, p2t2, p2t3, = CardAppend(p2t, p2t2, p2t3)
-        p2.append(TableCards[p2t - 1])
-        p2.append(TableCards[p2t2 - 1])
-        p2.append(TableCards[p2t3 - 1])
-
 while True:
     #Runs the actual game. Decides if it runs again
     ShuffleDeck1()
     Start_Game()
     TheBetting()
     if p1fold == False and p2fold == False:
-        SortDeck()
-        Picking_Winner()
+        p1Deck = [p1[0], p1[1], TableCards[0], TableCards[1], TableCards[2], TableCards[3], TableCards[4]]
+        index = 0
+        for a in range(3):
+            if index == 21:
+                break
+            for b in range(3):
+                if index == 21:
+                    break
+                if b+1 <= a:
+                    break
+                for c in range(3):
+                    if index == 21:
+                        break
+                    if c+2 <= b:
+                        break
+                    for d in range(3):
+                        if index == 21:
+                            break
+                        if d+3 <= c:
+                            break
+                        for e in range(3):
+                            if index == 21:
+                                break
+                            if e+4 <= d:
+                                break
+                            p1DeckPossibilities[index] = SortDeck([p1Deck[a], p1Deck[b+1], p1Deck[c+2], p1Deck[d+3], p1Deck[e+4]])
+                            print(p1DeckPossibilities[index])
+                            index+=1
+
+        p2Deck = [p2[0], p2[1], TableCards[0], TableCards[1], TableCards[2], TableCards[3], TableCards[4]]
+        index = 0
+        for a in range(3):
+            if index == 21:
+                break
+            for b in range(3):
+                if index == 21:
+                    break
+                if b+1 <= a:
+                    break
+                for c in range(3):
+                    if index == 21:
+                        break
+                    if c+2 <= b:
+                        break
+                    for d in range(3):
+                        if index == 21:
+                            break
+                        if d+3 <= c:
+                            break
+                        for e in range(3):
+                            if index == 21:
+                                break
+                            if e+4 <= d:
+                                break
+                            p2DeckPossibilities[index] = SortDeck([p2Deck[a], p2Deck[b+1], p2Deck[c+2], p2Deck[d+3], p2Deck[e+4]])
+                            print(p2DeckPossibilities[index])
+                            index+=1
+        for x in range(21):
+            p1DeckScores[x] = Picking_Winner(p1DeckPossibilities[x], p1DeckScores[x])
+        for x in range(21):
+            p2DeckScores[x] = Picking_Winner(p2DeckPossibilities[x], p2DeckScores[x])
         DecideWinner()
     if p1money == 0:
         print("Player 1 has lost")
@@ -988,8 +705,6 @@ while True:
         pot = 0
         p1 = []
         p2 = []
-        p1sorted = []
-        p2sorted = []
         deckCardsList = ["Ace of Spades, ", "Two of Spades, ", "Three of Spades, ", "Four of Spades, ", "Five of Spades, ", "Six of Spades, ", "Seven of Spades, ", "Eight of Spades, ", "Nine of Spades, ", "Ten of Spades, ", "Jack of Spades, ", "Queen of Spades, ", "King of Spades, ", "Ace of Clubs, ", "Two of Clubs, ", "Three of Clubs, ", "Four of Clubs, ", "Five of Clubs, ", "Six of Clubs, ", "Seven of Clubs, ", "Eight of Clubs, ", "Nine of Clubs, ", "Ten of Clubs, ", "Jack of Clubs, ", "Queen of Clubs, ", "King of Clubs, ", "Ace of Diamonds, ", "Two of Diamonds, ", "Three of Diamonds, ", "Four of Diamonds, ", "Five of Diamonds, ", "Six of Diamonds, ", "Seven of Diamonds, ", "Eight of Diamonds, ", "Nine of Diamonds, ", "Ten of Diamonds, ", "Jack of Diamonds, ", "Queen of Diamonds, ", "King of Diamonds, ", "Ace of Hearts, ", "Two of Hearts, ", "Three of Hearts, ", "Four of Hearts, ", "Five of Hearts, ", "Six of Hearts, ", "Seven of Hearts, ", "Eight of Hearts, ", "Nine of Hearts, ", "Ten of Hearts, ", "Jack of Hearts, ", "Queen of Hearts, ", "King of Hearts, "]
         shuffledDeck = []
         shuffledDeck2 = []
@@ -1001,19 +716,11 @@ while True:
         shuffledDeck8 = []
         shuffledDeck9 = []
         shuffledDeck10 = []
-        shuffledDeck11 = []
-        shuffledDeck12 = []
-        shuffledDeck13 = []
-        shuffledDeck14 = []
-        shuffledDeck15 = []
-        shuffledDeck16 = []
-        shuffledDeck17 = []
-        shuffledDeck18 = []
-        shuffledDeck19 = []
-        shuffledDeck20 = []
+        p1DeckPossibilities = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+        p2DeckPossibilities = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+        p1DeckScores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        p2DeckScores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         lencards = len(deckCardsList)
-        player1win = False
-        player2win = False
         TableCards = []
 
     elif p1_again == "no" or p2_again == "no":
